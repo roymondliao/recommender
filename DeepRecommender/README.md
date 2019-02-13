@@ -1,4 +1,3 @@
-## Training Deep AutoEncoders for Collaborative Filitering
 <head>
     <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
     <script type="text/x-mathjax-config">
@@ -10,6 +9,8 @@
         });
     </script>
 </head>
+
+## Training Deep AutoEncoders for Collaborative Filitering
 
 Implementation of **Training Deep AutoEncoders for Collaborative Filtering** with Tensorflow.
 
