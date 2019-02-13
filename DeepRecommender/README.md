@@ -30,7 +30,7 @@ Use **U-AutoRec** with several important **distinctions**.
 	3. Use high dropout rates
 	4. **Use iterative output re-feeding during training**
 
-> The *goal* of autoencoder is to obtain d dimensional representaion of data such that an error measure between $ x $ and $ f\left( x \right) = decode\left( encode\left( x \right) \right)$ is minimized.
+> The *goal* of autoencoder is to obtain d dimensional representaion of data such that an error measure between $$ x $$ and $$ f\left( x \right) = decode\left( encode\left( x \right) \right)$$ is minimized.
 
 If noise is added to the data during encoding step, the autoencoder is called **de-noising**.
 
