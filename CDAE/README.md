@@ -1,5 +1,7 @@
 ## Collaborative Denoising Auto-Encoders for Top-N Recommender Systems
 
+**If the formula dosen't show complete, please read the pdf version.**
+
 Implementation of **Collaborative Denoising Auto-Encoders for Top-N Recommender Systems** with Tensorflow.
 
 Paper: http://alicezheng.org/papers/wsdm16-cdae.pdf

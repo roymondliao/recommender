@@ -1,6 +1,8 @@
 
 ## Training Deep AutoEncoders for Collaborative Filitering
 
+**If the formula dosen't show complete, please read the pdf version.**
+
 Implementation of **Training Deep AutoEncoders for Collaborative Filtering** with Tensorflow.
 
 Paper: https://arxiv.org/abs/1708.01715
