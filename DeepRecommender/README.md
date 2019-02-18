@@ -8,18 +8,21 @@ Paper: https://arxiv.org/abs/1708.01715
 Github: https://github.com/NVIDIA/DeepRecommender
 
 ### 1 - INTRODUCTION
+
+This paper proposes a model for the **rating prediction task** in recommender systems.
+
 * Data Set: 
-   This paper proposes a model for the **rating prediction task** in recommender systems which significantly outperforms previous state-of-the art models on a time-split Netflix data set.
+   time-split Netflix data set.
 * Key Point:
-   a) deep autoencoder models generalize much better than the shallow ones.
-   	b) non-linear activation functions with negative parts are crucial for training deep models.	
-   	c) heavy use of regularization techniques such as dropout is necessary to prevent overfitting.
+    a) deep autoencoder models generalize much better than the shallow ones.
+    b) non-linear activation functions with negative parts are crucial for training deep models.	
+    c) heavy use of regularization techniques such as dropout is necessary to prevent overfitting.
 
 #### 1.1 Related Work
 1. Restricted Boltzman machines(RBM) 
 2. Deep autoencoders
-  * I-AutoRec(item-based autoencoder)
-  * U-AutoRec(user-based autoencoder)
+    * I-AutoRec(item-based autoencoder)
+    * U-AutoRec(user-based autoencoder)
 3. Feed-forward neural network
 4. Recurrent recommender networks
 
@@ -30,7 +33,7 @@ Use **U-AutoRec** with several important **distinctions**.
 	3. Use high dropout rates
 	4. **Use iterative output re-feeding during training**
 
-> The *goal* of autoencoder is to obtain d dimensional representaion of data such that an error measure between $$ x $$ and $$ f\left( x \right) = decode\left( encode\left( x \right) \right)$$ is minimized.
+> The *goal* of autoencoder is to obtain d dimensional representaion of data such that an error measure between $ x $ and $ f\left( x \right) = decode\left( encode\left( x \right) \right) $ is minimized.
 
 If noise is added to the data during encoding step, the autoencoder is called **de-noising**.
 

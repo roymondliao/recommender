@@ -2,7 +2,7 @@
 
 Implementation of **Collaborative Denoising Auto-Encoders for Top-N Recommender Systems** with Tensorflow.
 
-Paper: http://yaowu.co/docs/wsdm16cdae-poster.pdf
+Paper: http://alicezheng.org/papers/wsdm16-cdae.pdf
 
 ### 1 - INTRODUCTION
 * Collaborative Denoisig Auto-Encoders(CDAE) assumes that whatever user-item interactions are observed are a currupted version of the user's full preference set.< CF所需要的users-items資料是一個很大的稀疏矩陣，對應每位使用者所看過的items，有些空格有值有些沒有，所以這邊用*currupted data*來嬋述這樣的想法 >
