@@ -30,35 +30,39 @@ This paper proposes a model for the **rating prediction task** in recommender sy
 
 ### 2 - MODEL
 Use **U-AutoRec** with several important **distinctions**.
-	1. No pre-training model
-	2. Use **Scaled exponential linear units(SELUs)**
-	3. Use high dropout rates
-	4. **Use iterative output re-feeding during training**
+ 	1. No pre-training
+     2. Use **Scaled exponential linear units(SELUs)**
+         Output value has upper bundle and lower bundle that gradient explosion or gradient vanishing will not happen.
+     3. Use high dropout rates
+     4. **Use iterative output re-feeding during training**
 
-> The *goal* of autoencoder is to obtain d dimensional representaion of data such that an error measure between $ x $ and $ f\left( x \right) = decode\left( encode\left( x \right) \right) $ is minimized.
+> The *goal* of autoencoder is to obtain d dimensional representaion of data such that an error measure between $ x $ and $ f\left( x \right) = decode\left( encode\left( x \right) \right) $ is minimized. Figure show the sample 4-layer autoencoder network.
 
 If noise is added to the data during encoding step, the autoencoder is called **de-noising**.
 
-> In our model, both encoder and decoder parts of the autoencoder consist of feed-forward neural networks with classical fully connected layers computing $ l = f \left(W ∗ x + b\right) $, where f is some non-linear activation function.
+> In our model, both encoder and decoder parts of the autoencoder consist of feed-forward neural networks with classical fully connected layers computing $ l = f \left(W ∗ x + b\right) ​$, where f is some non-linear activation function.
+
+<img src="img/Training_Deep_AutoEncoders_for_Collaborative_Filitering_figure1.jpg" style="zoom:50%" />
+
+> If decoder mirrors encoder architecture then one can constrain decoder's weights $ {W}_{e}^{l} $ to be equal to **transposed** encoder weights $ {W}_{e}^{l} $ from the corresponding layer $ l $. This autoencoder is called *constrained* or *tied*.
 
 #### 2.1 Loss Function
 Masked Mean Squared Error Loss
 $$
 MMSE = \frac{m_{i} * \left( r_{i} - y_{j} \right)}{\sum_{i=0}^{i=n} m_{i}}
 $$
-where $ r_{i} $ is actual rating, $ y_{i} $ is reconstructed or predicted rating, and $ m_{i} $ is a mask function such that $ m_{i} = 1 $ if $ r_{i} \not= else  \space m_{i} = 0 $.
+where $ r_{i} $ is actual rating, $ y_{i} $ is reconstructed or predicted rating, and $ m_{i} $ is a mask function such that $ m_{i} = 1 $ if $ r_{i} \not= 0 \space else  \space m_{i} = 0 $.
 
 > Note that there is a straightforward relation between RMSE score and MMSE score: $ RMSE = \sqrt{MMSE} $.
 
 #### 2.2 Dense re-feeding
-During training and inference, an input $ x \in R^{n} $ is very sparse and anutoencoder's output $ f\left( x \right)$ is dense. Then $ f\left( x \right)_{i} = x_{i}, x_{i} \not= 0 \space and \space f\left( x \right)_{i} $ accurately predicts all user's *feature* rating for items i: $ x_{i} = 0 $. This means that if user rates new item k (creating a new vector $ x^{'} $) then $ f\left( x \right)_{k} = x_{k}^{'}  \space and \space f\left( x \right) = f\left( x^{'} \right)$. Hence, in this idealized scenario, $ y = f\left( x \right) $  should be a ﬁxed point of a well trained autoencoder: $ f\left( y \right) = y $.
+During training and inference, an input $ x \in R^{n} $ is very sparse and anutoencoder's output $ f\left( x \right)$ is dense. Lets consider an idealized scenario with a $perfect \space f$. Then $ f\left( x \right)_{i} = x_{i}, x_{i} \not= 0 \space and \space f\left( x \right)_{i} $ accurately predicts all user's *feature* rating for items i: $ x_{i} = 0 $. This means that if user rates **new item k** (creating a new vector $ x^{'} $) then $ f\left( x \right)_{k} = x_{k}^{'}  \space and \space f\left( x \right) = f\left( x^{'} \right)$. Hence, in this idealized scenario, $ y = f\left( x \right) $  should be a [ﬁxed point](https://zh.wikipedia.org/wiki/%E4%B8%8D%E5%8A%A8%E7%82%B9%E5%AE%9A%E7%90%86) of a well trained autoencoder: $ f\left( y \right) = y $.
 
 To explicitly enforce **ﬁxed-point** constraint and to be able to perform dense training updates, we augment every optimization iteration with an **iterative dense re-feeding steps** (3 and 4 below) as follows:
 	(1) Given sparse $x$, compute dense $f \left( x \right) $ and loss using equation 1 (forward pass)
 	(2) Compute gradients and perform weight update (backward pass)
-	(3) Treat $ f \left( x \right)  $ as a new example and compute $ f\left( f \left( x \right) \right) $. Now both $ f \left( x \right)  $and $ f\left( f \left( x \right) \right) $ are dense and the loss from equation 1 has all m as non-zeros. (second forward pass)
-	(4) Compute gradients and perform weight update (second backward pass) S
-teps (3) and (4) can be also performed more than once for every iteration.
+	(3) Treat $ f \left( x \right)  $ as a new example and compute $ 	f\left( f \left( x \right) \right) $. Now both $ f \left( x \right)  $and $ f\left( f \left( x \right) \right) ​$ are dense and the loss from equation 1 has all m as non-zeros. (second forward pass)
+	(4) Compute gradients and perform weight update (second backward pass) Steps (3) and (4) can be also performed more than once for every iteration.
 
 ### 3 EXPERIMENTS AND RESULT
 #### 3.1 Experiment setup
@@ -88,6 +92,7 @@ The two key points:
 	2. unbound positive part
 
 Thus, we use SELU activation units and tune SELU-based networks for performance.
+
 ![Training_Deep_AutoEncoders_for_Collaborative_Filitering_figure2](img/Training_Deep_AutoEncoders_for_Collaborative_Filitering_figure2.png)
 
 #### 3.3 Over-fitting the data
@@ -117,4 +122,7 @@ Model architecture:
 
 ### Reference
 1. https://hk.saowen.com/a/89ffa569973688589ee4193ae804e6265d15d3dfe5812aa36b2cca129e443def
+
 2. https://github.com/hadlaq/AECF
+
+    
